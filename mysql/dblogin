@@ -1,0 +1,60 @@
+#!/bin/bash
+
+PATH=$PATH:/usr/local/bin:/usr/local/mysql55/bin
+export LANG=en_US.UTF-8
+
+function  usage()
+{
+echo "usage:    $0 -p port [ -e <sql> ]"
+echo "e.g. $0 -p 3001 "
+echo "e.g. $0 -p 3001 -e 'show databaases;'"
+}
+
+if [[ "$#" -lt 1 ]]  
+  then
+     usage
+     exit 1
+fi
+
+###default directory
+MBIN=/usr/local/mysql55/bin
+MBIN2=/usr/bin
+user=dba_mgr
+password=o7xeJMkJOeqGWH1X
+host=127.0.0.1
+
+
+
+while getopts p:he: OPTION
+do
+   case "$OPTION" in
+       p)port=$OPTARG
+       ;;
+       h)usage
+         exit 1
+       ;;
+       e)sql=$OPTARG
+       ;;
+       *)usage      
+         exit 1
+       ;;
+   esac
+done
+
+if [ -d $MBIN ]
+then
+        mysql=$MBIN
+elif [ -d $MBIN2 ];then
+        mysql=$MBIN2
+else
+        echo "no mysql binary,please check!"
+        exit 1
+fi
+
+  if [ -n "$sql" ]
+   then
+        $mysql/mysql -A -u $user -p$password  -h $host -P $port -e "$sql" 
+  else
+        $mysql/mysql -A -u $user -p$password  -h $host -P $port 
+  fi  
+
