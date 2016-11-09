@@ -33,7 +33,16 @@ case $1 in
 		rs1=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e "show global status where variable_name = 'Queries'" | awk '{print $2}'`
 		sleep 1
 		rs2=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e "show global status where variable_name = 'Queries'" | awk '{print $2}'`
-		result=$((${rs2} - ${rs1}))
+		result=`expr $[rs2 - rs1]`
+		echo $result
+		;;
+	Mysql_tps)
+		rs1=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e "show global status where variable_name = 'Com_commit'" | awk '{print $2}'`
+		rs2=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e "show global status where variable_name = 'Com_rollback'" | awk '{print $2}'`
+		sleep 1
+		rs11=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e "show global status where variable_name = 'Com_commit'" | awk '{print $2}'`
+		rs21=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e "show global status where variable_name = 'Com_rollback'" | awk '{print $2}'`
+		result=`expr $[rs11 + rs21 - rs1 - rs2]`
 		echo $result
 		;;
 	*)
