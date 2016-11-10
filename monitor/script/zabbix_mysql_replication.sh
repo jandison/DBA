@@ -45,7 +45,14 @@ case $1 in
 		result=`expr $[rs11 + rs21 - rs1 - rs2]`
 		echo $result
 		;;
+	Mysql_slowlog)
+		rs1=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'slow_queries'" | awk '{print $2}'`
+		sleep 10
+		rs2=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'slow_queries'" | awk '{print $2}'`
+		result=`expr $[rs1 - rs2]`
+		echo $result
+		;;
 	*)
-	echo "Usage:$0(Repl_Status|Repl_Delay|Mysql_Alive)"
+	echo "Usage:$0(Repl_Status|Repl_Delay|Mysql_Alive|Mysql_qps|Mysql_tps|Mysql_slowlog)"
 	;;
 esac
