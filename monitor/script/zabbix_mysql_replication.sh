@@ -52,6 +52,23 @@ case $1 in
 		result=`expr $[rs1 - rs2]`
 		echo $result
 		;;
+	Mysql_threadconnected)
+		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'Threads_connected'" | awk '{print $2}'`
+		echo $result
+		;;
+	Mysql_createdtmpdisktables)
+		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'Created_tmp_disk_tables'" | awk '{print $2}'`
+		echo $result
+		;;
+	Mysql_handlerreadfirst)
+		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'Handler_read_first'" | awk '{print $2}'`
+		echo $result
+		;;
+	Mysql_innodbbufferpoolwaitfree)
+		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'Innodb_buffer_pool_wait_free'" | awk '{print $2}'`
+		echo $result
+		;;
+
 	*)
 	echo "Usage:$0(Repl_Status|Repl_Delay|Mysql_Alive|Mysql_qps|Mysql_tps|Mysql_slowlog)"
 	;;
