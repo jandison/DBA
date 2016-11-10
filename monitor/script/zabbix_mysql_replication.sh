@@ -68,7 +68,22 @@ case $1 in
 		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'Innodb_buffer_pool_wait_free'" | awk '{print $2}'`
 		echo $result
 		;;
-
+	Mysql_keyreads)
+		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'Key_reads'" | awk '{print $2}'`
+		echo $result
+		;;
+	Mysql_maxusedconnections)
+		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'Max_used_connections'" | awk '{print $2}'`
+		echo $result
+		;;
+	Mysql_opentables)
+		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'Open_tables'" | awk '{print $2}'`
+		echo $result
+		;;
+	Mysql_selectfulljoin)
+		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'Select_full_join'" | awk '{print $2}'`
+		echo $result
+		;;
 	*)
 	echo "Usage:$0(Repl_Status|Repl_Delay|Mysql_Alive|Mysql_qps|Mysql_tps|Mysql_slowlog)"
 	;;
