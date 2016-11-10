@@ -8,7 +8,7 @@ if [ $# -ne "$ARGS" ]; then
 	echo "please input on argument:"
 fi
 case $1 in
-	Repl_Status)
+	Repl_status)
 		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -e "show slave status\G" | egrep -w "Slave_IO_Running|Slave_SQL_Running" | awk '{print $2}' | grep -c Yes`
 		if [[ $result -eq 2 ]];then
 			echo "Yes"
@@ -16,11 +16,11 @@ case $1 in
 			echo "No"
 		fi
 		;;
-	Repl_Delay)
+	Repl_delay)
 		result=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -e"show slave status\G" | egrep -w "Seconds_Behind_Master" | awk '{print $2}'`
 		echo $result
 		;;
-	Mysql_Alive)
+	Mysql_alive)
 		result=`ps -ef | grep mysqld_safe | grep -v grep | wc -l`
 		echo $result
 		if [[ $result -eq 0 ]]; then
@@ -45,7 +45,7 @@ case $1 in
 		result=`expr $[rs11 + rs21 - rs1 - rs2]`
 		echo $result
 		;;
-	Mysql_slowlog)
+	Mysql_slowqueries)
 		rs1=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'slow_queries'" | awk '{print $2}'`
 		sleep 10
 		rs2=`${MYSQL} --defaults-extra-file=${MYSQL_CONF} -N -e"show global status where variable_name = 'slow_queries'" | awk '{print $2}'`
@@ -85,6 +85,6 @@ case $1 in
 		echo $result
 		;;
 	*)
-	echo "Usage:$0(Repl_Status|Repl_Delay|Mysql_Alive|Mysql_qps|Mysql_tps|Mysql_slowlog)"
+	echo "Usage:$0(Repl_status|Repl_delay|Mysql_alive|Mysql_qps|Mysql_tps|Mysql_slowqueries|Mysql_threadconnected|Mysql_createdtmpdisktables|Mysql_handlerreadfirst|Mysql_innodbbufferpoolwaitfree|Mysql_keyreads|Mysql_maxusedconnections|Mysql_opentables|Mysql_selectfulljoin)"
 	;;
 esac
