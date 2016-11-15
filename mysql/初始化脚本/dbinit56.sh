@@ -4,11 +4,11 @@
 ### Func : init mysql 
 
 
-PATH=/usr/local/jdk1.6.0_45/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/mysql55/bin:
+PATH=/usr/local/jdk1.6.0_45/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/local/mysql56/bin:
 
 export LANG=en_US.UTF-8
-version='55'
-versions='mysql55'
+version='56'
+versions='mysql56'
 mem=2
 slave=0
 
@@ -23,7 +23,7 @@ usage()
 echo "usage:  
 	sh  $0 -p port -m mem -s 1 -v version" 
 echo "e.g.       
-	sh  $0 -p 3999 -m 3 -s 1 -v mysql55" 
+	sh  $0 -p 3999 -m 3 -s 1 -v mysql56" 
 echo "        
 	-m	mem:default 2
 		unit:GB"
@@ -31,7 +31,7 @@ echo "
 	-s	slave:default 0
 		1:slave,0:master"
 echo "       
-	-v	version:default mysql55 
+	-v	version:default mysql56 
 		optional:mysql55,mysql56"
 }
 
@@ -83,11 +83,7 @@ fi
 
 getip()
 {
-ip=`/sbin/ifconfig eth1 |grep "inet addr"| cut -f 2 -d ":"|cut -f 1 -d " "`
-if [ -z $ip ]
-then
-      ip=`/sbin/ifconfig eth0 |grep "inet addr"| cut -f 2 -d ":"|cut -f 1 -d " "`
-fi
+ip=`ifconfig | grep "inet addr" | cut -f 2 -d ":" | cut -f 1 -d " " | head -1`
 echo $ip
 }
 
@@ -155,7 +151,7 @@ back_log=1024
 # INNODB #
 innodb_flush_method            = O_DIRECT
 innodb_data_home_dir = /data1/mysql$port/
-innodb_data_file_path = ibdata1:100M:autoextend
+innodb_data_file_path = ibdata1:1G:autoextend
 innodb_log_group_home_dir=/data1/mysql$port/
 innodb_log_files_in_group      = 3
 innodb_log_file_size           = 1G
@@ -178,7 +174,13 @@ log_error                      = /data1/mysql$port/error.log
 #log_queries_not_using_indexes  = 1
 slow_query_log                 = 1
 slow_query_log_file            = /data1/mysql$port/mysql-slow.log
-long_query_time=0.05
+long_query_time = 0.05
+log_queries_not_using_indexes = 1
+
+# 该参数只在5.6及以上版本中使用
+# 表示每分钟记录的slow log的且未使用到索引的SQL语句次数
+# 默认为0，表示没有限制；生产环境中，若没有限制，慢查询会被频繁记录到slow log，导致文件不断增大，DBA可适当调整
+log_throttle_queries_not_using_indexes = 0 
 EOF
 
 # if [ $slave -eq 1 ]
