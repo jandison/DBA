@@ -95,20 +95,20 @@ cat > $data_dir/my$port.cnf  << EOF
 ##mysql cnf
 [mysqld]
 
-# GENERAL con#
+# GENERAL #
 user                           = $MUSER
 port                           = $port
 default_storage_engine         = InnoDB
 socket                         = /tmp/mysql$port.sock
 pid_file                       = /data1/mysql$port/mysql.pid
 
-#slave
+# SLAVE #
 #read_only
 #log-slave-updates
 
 # MyISAM #
-#key_buffer_size                = 32M
-key_buffer              	= 32M
+key_buffer_size                = 32M
+#key_buffer              	= 32M  mysql5.5
 myisam_recover                 = FORCE,BACKUP
 
 # SAFETY #
@@ -125,8 +125,6 @@ expire_logs_days               = 10
 relay-log=  /data1/mysql$port/$port-relaylog
 #replicate-wild-do-table=hostility_url.%
 #replicate-wild-do-table=guards.%
-
-
 
 # CACHES AND LIMITS #
 tmp_table_size                 = 32M
@@ -185,6 +183,7 @@ log_queries_not_using_indexes = 1
 # 表示每分钟记录的slow log的且未使用到索引的SQL语句次数
 # 默认为0，表示没有限制；生产环境中，若没有限制，慢查询会被频繁记录到slow log，导致文件不断增大，DBA可适当调整
 log_throttle_queries_not_using_indexes = 0 
+
 EOF
 
 # if [ $slave -eq 1 ]
