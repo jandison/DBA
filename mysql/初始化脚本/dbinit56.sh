@@ -168,6 +168,10 @@ innodb_write_io_threads=8
 innodb_buffer_pool_instances=4
 innodb_thread_concurrency=0
 
+# GTID #
+gtid_mode = on 
+enforce-gtid-consistency=on
+
 
 # LOGGING #
 log_error                      = /data1/mysql$port/error.log
