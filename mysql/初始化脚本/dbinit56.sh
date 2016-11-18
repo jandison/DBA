@@ -104,7 +104,8 @@ pid_file                       = /data1/mysql$port/mysql.pid
 
 # SLAVE #
 #read_only
-#log-slave-updates
+#开启GTID的前提条件
+log-slave-updates
 
 # MyISAM #
 key_buffer_size                = 32M
