@@ -1,0 +1,49 @@
+GO
+ALTER function [dbo].[newcorpid]() returns varchar(32) 
+as
+begin
+declare @corpsid varchar(32)
+declare @p1 varchar(2)
+declare @p2 varchar(2)
+declare @p3 varchar(2)
+--declare @nextparent varchar(32)
+select @corpsid=max(corpsid) from g_og_corpinfo
+--select @corpsid=@ID
+select @p1 = substring(@corpsid,1,1)
+select @p2 = substring(@corpsid,2,1)
+select @p3 = substring(@corpsid,3,1)
+begin
+	if ((ascii(@p3) between 48 and 56) or (ascii(@p3) between 65 and 89))
+		begin
+			set @p3 = char((ascii(@p3) + 1))
+		end
+	else if(ascii(@p3) = 90)
+		begin
+			if((ascii(@p2) between 48 and 56) or (ascii(@p2) between 65 and 89))
+				begin		
+					set @p2 = char(ascii(@p2) + 1)
+					set @p3 = '0'
+				end
+			else if(ascii(@p2) = 90)
+				begin
+					if((ascii(@p1) between 48 and 56) or (ascii(@p1) between 65 and 89))
+						begin
+							set @p1 = char(ascii(@p1) + 1)
+							set @p2 = '0'
+							set @p3 = '0'
+						end
+					else
+						begin
+							set @p1 = char(ascii(@p1) + 1 + 7)
+							set @p2 = '0'
+							set @p3 = '0'
+						end
+				end
+		end
+	else
+		begin
+			set @p3 = char(ascii(@p3) + 1 + 7)
+		end
+ end
+	return concat(@p1,@p2,@p3,'000000')
+end
