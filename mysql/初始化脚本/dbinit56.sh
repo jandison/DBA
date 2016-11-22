@@ -165,7 +165,7 @@ innodb_max_dirty_pages_pct=90
 innodb_read_io_threads=16
 innodb_write_io_threads=8
 innodb_buffer_pool_instances=4
-innodb_thread_concurrency=0
+innodb_thread_concurrency=0   #不限制并发
 
 # GTID #
 gtid_mode = on 
