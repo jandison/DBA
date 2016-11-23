@@ -160,12 +160,13 @@ innodb_file_format=Barracuda
 innodb_support_xa=0
 
 
-innodb_io_capacity=500
+innodb_io_capacity=100        #控制checkpoint时的IO能力，普通的sata 7200转官网建议设成100,15000转SAS 200
 innodb_max_dirty_pages_pct=90
 innodb_read_io_threads=16
 innodb_write_io_threads=8
 innodb_buffer_pool_instances=4
 innodb_thread_concurrency=0   #不限制并发
+innodb_use_native_aio = on    #异步IO
 
 # GTID #
 gtid_mode = on 
