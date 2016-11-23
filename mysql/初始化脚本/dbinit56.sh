@@ -160,16 +160,16 @@ innodb_file_format=Barracuda
 innodb_support_xa=0
 
 
-innodb_io_capacity=100        #控制checkpoint时的IO能力，普通的sata 7200转官网建议设成100,15000转SAS 200
+innodb_io_capacity=100        #控制checkpoint时的IO能力,普通的sata 7200转官网建议设成100,15000转SAS 200
 innodb_max_dirty_pages_pct=90
 innodb_read_io_threads=16
 innodb_write_io_threads=8
 innodb_buffer_pool_instances=4
-innodb_thread_concurrency=0   #不限制并发
-innodb_use_native_aio = on    #异步IO
-innodb_purge_threads = 1      #采用单独清理线程
-innodb_purge_batch_size = 300 #配合单独线程使用
-
+innodb_thread_concurrency=0    #不限制并发
+innodb_use_native_aio = on     #异步IO
+innodb_purge_threads = 1       #采用单独清理线程
+innodb_purge_batch_size = 300  #配合单独线程使用
+innodb_stats_on_metadata = OFF #关闭元数据统计,基本上不影响元数据统计准确性.schema及table较多的情况下,关闭该选项能获得性能提升
 
 # GTID #
 gtid_mode = on 
