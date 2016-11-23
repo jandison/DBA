@@ -167,6 +167,9 @@ innodb_write_io_threads=8
 innodb_buffer_pool_instances=4
 innodb_thread_concurrency=0   #不限制并发
 innodb_use_native_aio = on    #异步IO
+innodb_purge_threads = 1      #采用单独清理线程
+innodb_purge_batch_size = 300 #配合单独线程使用
+
 
 # GTID #
 gtid_mode = on 
