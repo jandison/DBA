@@ -183,6 +183,7 @@ slow_query_log                 = 1
 slow_query_log_file            = /data1/mysql$port/mysql-slow.log
 long_query_time = 0.05
 log_queries_not_using_indexes = 1
+innodb_print_all_deadlocks = 1 #将死锁信息打印到错误日志
 
 # 该参数只在5.6及以上版本中使用
 # 表示每分钟记录的slow log的且未使用到索引的SQL语句次数
