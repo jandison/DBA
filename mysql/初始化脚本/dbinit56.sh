@@ -170,7 +170,8 @@ innodb_use_native_aio = on     #异步IO
 innodb_purge_threads = 1       #采用单独清理线程
 innodb_purge_batch_size = 300  #配合单独线程使用
 innodb_stats_on_metadata = OFF #关闭元数据统计,基本上不影响元数据统计准确性.schema及table较多的情况下,关闭该选项能获得性能提升
-
+innodb_buffer_pool_dump_at_shutdown = 1 #shutdown或pkill时将buffer pool里面的热数据保存到磁盘
+innodb_buffer_pool_load_ad_startup = 1  #启动时将dump出来的热数据再加载到buffer pool
 # GTID #
 gtid_mode = on 
 enforce-gtid-consistency=on
