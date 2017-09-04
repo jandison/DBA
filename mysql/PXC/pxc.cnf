@@ -1,0 +1,96 @@
+###### start mysql configuration###### 
+##mysql cnf
+[mysqld]
+
+# GENERAL con#
+user                           = dba
+port                           = 3306
+default_storage_engine         = InnoDB
+socket                         = /tmp/pxc3306.sock
+pid_file                       = /pxc/mysql.pid
+lower_case_table_names = 1
+
+#replication framework
+gtid_mode = on
+enforce_gtid_consistency = on
+log_slave_updates = on
+log_bin = binlog
+binlog_format = row
+# MyISAM #
+#key_buffer_size                = 32M
+#key_buffer                      = 32M
+#myisam_recover                 = FORCE,BACKUP
+
+# SAFETY #
+max_allowed_packet             = 64M
+max_connect_errors             = 1000000
+
+# DATA STORAGE 
+datadir                        = /pxc/
+
+# BINARY LOGGING #
+log_bin                        = /pxc/3306-binlog
+expire_logs_days               = 10
+relay-log=  /pxc/3306-relaylog
+
+# CACHES AND LIMITS #
+tmp_table_size                 = 32M
+max_heap_table_size            = 32M
+query_cache_type               = 1
+query_cache_size               = 0
+max_connections                = 5000
+thread_cache_size              = 512
+open_files_limit               = 65535
+table_definition_cache         = 4096
+table_open_cache               = 4096
+wait_timeout=7500
+interactive_timeout=7500
+character-set-server=utf8
+skip-name-resolve
+skip-character-set-client-handshake
+back_log=1024
+
+
+# INNODB #
+innodb_flush_method            = O_DIRECT
+innodb_data_home_dir = /pxc/
+#innodb_data_file_path = ibdata1:100M:autoextend
+innodb_log_group_home_dir=/pxc/
+innodb_log_files_in_group      = 3
+innodb_log_file_size           = 1G
+innodb_flush_log_at_trx_commit = 2
+sync_binlog = 200
+innodb_file_per_table          = 1
+innodb_file_format=Barracuda
+innodb_support_xa=1
+innodb_io_capacity=200
+innodb_max_dirty_pages_pct=90
+innodb_read_io_threads=2
+innodb_write_io_threads=2
+innodb_buffer_pool_instances=4
+innodb_thread_concurrency=0
+innodb_autoinc_lock_mode = 2
+
+# LOGGING #
+log_error                      = /pxc/error.log
+#log_queries_not_using_indexes  = 1
+slow_query_log                 = 1
+slow_query_log_file            = /pxc/mysql-slow.log
+long_query_time=0.05
+server_id=802013306181
+innodb_buffer_pool_size        = 256M
+report-host=node3
+report-port=3306
+
+## wsrep configuration
+wsrep_provider=/usr/local/pxc/lib/libgalera_smm.so
+wsrep_cluster_name=pxc-cluster
+wsrep_cluster_address=gcomm://192.168.0.180,192.168.0.181,192.168.0.202
+wsrep_node_name=pxc1
+wsrep_node_address=192.168.0.181
+wsrep_sst_method=xtrabackup-v2
+wsrep_sst_auth=sstuser:passw0rd
+pxc_strict_mode=ENFORCING
+[mysql]
+prompt = \u@\h:\p [\d]>
+###### end mysql configuration###### 
